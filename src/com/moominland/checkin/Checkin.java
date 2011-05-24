@@ -53,24 +53,30 @@ public class Checkin extends Activity {
 
 	@Override
 	public void onNewIntent(Intent intent) {
-		Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-		v.vibrate(100);
+		Log.e(TAG, "NEW");
+		attemptCheckIn(intent);
+	}
+	
+	private void attemptCheckIn(Intent intent) {
 
 		Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
 		Log.i(TAG, Integer.toString(rawMsgs.length));
 		String readMessage = readRawMsgs(rawMsgs);
 		
-		if (readMessage.equalsIgnoreCase(FRIDGE)) {
-			checkinAtFridge();
-		} else if (readMessage.equalsIgnoreCase(TRACEYS_OFFCE)) {
-			checkinAtTracysOffice();
-		} else if (readMessage.equalsIgnoreCase(BOARDROOM)) {
-			checkinAtBoardroom();
-		} else {
-			toast(readMessage + " is an unknown location");
+		if (readMessage.equalsIgnoreCase(FRIDGE) && !fridgeCheckedIn) {
+			checkinAtFridge(); buzz();
+		} else if (readMessage.equalsIgnoreCase(TRACEYS_OFFCE) && !tracysOfficeCheckedIn) {
+			checkinAtTracysOffice(); buzz();
+		} else if (readMessage.equalsIgnoreCase(BOARDROOM) && !boardRoomCheckedIn) {
+			checkinAtBoardroom(); buzz();
 		}
 		
 		checkForAllCheckIns();
+	}
+
+	private void buzz() {
+		Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+		v.vibrate(100);
 	}
 
 	private void checkinAtFridge() {
@@ -88,27 +94,6 @@ public class Checkin extends Activity {
 		tracysOfficeCheckedIn = true;
 		toast("Checked in at Tracey's office");
 		updateUIForId(R.id.traceyStar);
-	}
-
-	private void updateUIForId(int id) {
-		ImageView imageView = (ImageView) findViewById(id);
-		imageView.setImageResource(android.R.drawable.btn_star_big_on);
-	}
-	
-	private void resetUIForId(int id) {
-		ImageView imageView = (ImageView) findViewById(id);
-		imageView.setImageResource(android.R.drawable.btn_star_big_off);
-	}
-
-	private void toast(String message) {
-		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-	}
-
-	private void checkForAllCheckIns() {
-		if (fridgeCheckedIn && tracysOfficeCheckedIn && boardRoomCheckedIn) {
-			Toast.makeText(this, "Woohoo!\nYou won a soda!", Toast.LENGTH_LONG).show();
-			resetCheckIns();
-		}
 	}
 
 	private void resetCheckIns() {
@@ -178,11 +163,38 @@ public class Checkin extends Activity {
 		super.onResume();
 		nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilters,
 				null);
+		Log.e(TAG, "RESUME");
+		Intent firedIntent = getIntent();
+		if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(firedIntent.getAction())) {
+			attemptCheckIn(firedIntent);
+			setIntent(new Intent()); // Consume this intent.
+		}
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		nfcAdapter.disableForegroundDispatch(this);
+	}
+	
+	private void updateUIForId(int id) {
+		ImageView imageView = (ImageView) findViewById(id);
+		imageView.setImageResource(android.R.drawable.btn_star_big_on);
+	}
+	
+	private void resetUIForId(int id) {
+		ImageView imageView = (ImageView) findViewById(id);
+		imageView.setImageResource(android.R.drawable.btn_star_big_off);
+	}
+
+	private void toast(String message) {
+		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+	}
+
+	private void checkForAllCheckIns() {
+		if (fridgeCheckedIn && tracysOfficeCheckedIn && boardRoomCheckedIn) {
+			Toast.makeText(this, "Woohoo!\nYou won a soda!", Toast.LENGTH_LONG).show();
+			resetCheckIns();
+		}
 	}
 }
