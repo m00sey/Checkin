@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, Checkin!</string>
+    <string name="app_name">Checkin</string>
+    <string name="boardroom">Boardroom</string>
+    <string name="fridge">Fridge</string>
+    <string name="trcays_office">Tracey\'s Office</string>
+    <string name="intro">Check-in around the office and win a prize!</string>
+</resources>

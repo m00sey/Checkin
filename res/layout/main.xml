@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="wrap_content" android:id="@+id/outer">
+	<TextView android:layout_height="match_parent" android:id="@+id/textView4"
+		android:layout_width="fill_parent" android:text="@string/intro"
+		android:textSize="20dp"></TextView>
+	<LinearLayout android:layout_width="match_parent"
+		android:layout_height="match_parent" android:id="@+id/linearLayout2"
+		android:gravity="center_vertical">
+		<ImageView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/boardroomStar"
+			android:src="@android:drawable/btn_star_big_off" android:paddingTop="25dp"></ImageView>
+		<TextView android:layout_height="wrap_content"
+			android:gravity="center_horizontal" android:text="@string/boardroom"
+			android:layout_width="wrap_content" android:id="@+id/tBoardroom"
+			android:paddingTop="25dp" android:paddingLeft="15dp"
+			android:textSize="40dp"></TextView>
+	</LinearLayout>
+	<LinearLayout android:layout_width="match_parent"
+		android:paddingTop="15dp" android:layout_height="match_parent"
+		android:id="@+id/linearLayout3" android:gravity="center_vertical">
+		<ImageView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/fridgeStar"
+			android:src="@android:drawable/btn_star_big_off" android:paddingTop="45dp"></ImageView>
+		<TextView android:layout_height="wrap_content"
+			android:layout_width="fill_parent" android:text="@string/fridge"
+			android:textSize="40dp" android:paddingTop="45dp"
+			android:paddingLeft="15dp" android:id="@+id/tFridge"></TextView>
+	</LinearLayout>
+	<LinearLayout android:layout_width="match_parent"
+		android:paddingTop="15dp" android:layout_height="match_parent"
+		android:id="@+id/linearLayout4" android:gravity="center_vertical">
+		<ImageView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:src="@android:drawable/btn_star_big_off"
+			android:paddingTop="45dp" android:id="@+id/traceyStar"></ImageView>
+		<TextView android:layout_height="wrap_content" android:text="@string/trcays_office"
+			android:textSize="40dp" android:layout_width="fill_parent"
+			android:paddingTop="45dp" android:paddingLeft="15dp" android:id="@+id/tTraceysOffice"></TextView>
+	</LinearLayout>
+</LinearLayout>
